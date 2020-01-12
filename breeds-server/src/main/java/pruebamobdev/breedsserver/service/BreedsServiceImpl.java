@@ -17,8 +17,8 @@ import pruebamobdev.breedsserver.model.EntityBreeds;
 import pruebamobdev.breedsserver.model.EntityImages;
 import pruebamobdev.breedsserver.model.Image;
 
-@Service
-public class BreedsService {
+@Service("breedsServiceImpl")
+public class BreedsServiceImpl implements IBreedsService {
 
 	private Logger logger = LoggerFactory.getLogger(BreedsController.class);
 
