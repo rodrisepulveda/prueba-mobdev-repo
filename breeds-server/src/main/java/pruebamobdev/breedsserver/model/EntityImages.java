@@ -1,19 +1,18 @@
 package pruebamobdev.breedsserver.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class Entity {
+public class EntityImages {
 
-	private HashMap<String, ArrayList<String>> message;
+	private ArrayList<String> message;
 
 	private String status;
 
-	public HashMap<String, ArrayList<String>> getMessage() {
+	public ArrayList<String> getMessage() {
 		return message;
 	}
 
-	public void setMessage(HashMap<String, ArrayList<String>> message) {
+	public void setMessage(ArrayList<String> message) {
 		this.message = message;
 	}
 

@@ -1,5 +1,8 @@
 package pruebamobdev.breedsserver.service;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +13,9 @@ import pruebamobdev.breedsserver.controller.BreedsController;
 import pruebamobdev.breedsserver.exception.ErrorNoEncontrado;
 import pruebamobdev.breedsserver.exception.ErrorServicio;
 import pruebamobdev.breedsserver.model.Breed;
-import pruebamobdev.breedsserver.model.Entity;
+import pruebamobdev.breedsserver.model.EntityBreeds;
+import pruebamobdev.breedsserver.model.EntityImages;
+import pruebamobdev.breedsserver.model.Image;
 
 @Service
 public class BreedsService {
@@ -34,6 +39,8 @@ public class BreedsService {
 
 			this.agregarBreedYSubBreeds(breed, breedName);
 
+			this.agregarImagenes(breed);
+
 			return breed;
 
 		} catch (ErrorNoEncontrado error) {
@@ -52,11 +59,34 @@ public class BreedsService {
 
 	}
 
+	private void agregarImagenes(Breed breed) {
+
+		RestTemplate plantilla = new RestTemplate();
+
+		EntityImages entity = plantilla.getForObject(bredsApiServerUrl + bredsApiImagesEndpoint, EntityImages.class,
+				breed.getBreed());
+
+		List<Image> listaImages = new LinkedList<Image>();
+
+		for (String strImage : entity.getMessage()) {
+
+			Image image = new Image();
+
+			image.setUrl(strImage);
+
+			listaImages.add(image);
+
+		}
+
+		breed.setImages(listaImages);
+
+	}
+
 	private void agregarBreedYSubBreeds(Breed breed, String breedName) throws ErrorServicio, ErrorNoEncontrado {
 
 		RestTemplate plantilla = new RestTemplate();
 
-		Entity entity = plantilla.getForObject(bredsApiServerUrl + bredsApiAllEndpoint, Entity.class);
+		EntityBreeds entity = plantilla.getForObject(bredsApiServerUrl + bredsApiAllEndpoint, EntityBreeds.class);
 
 		if (entity == null || !entity.getStatus().equals("success")) {
 

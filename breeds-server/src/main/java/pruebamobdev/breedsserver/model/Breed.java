@@ -8,6 +8,8 @@ public class Breed {
 
 	private List<String> subBreeds;
 
+	private List<Image> images;
+
 	public String getBreed() {
 		return breed;
 	}
@@ -22,6 +24,14 @@ public class Breed {
 
 	public void setSubBreeds(List<String> subBreeds) {
 		this.subBreeds = subBreeds;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 
 }
