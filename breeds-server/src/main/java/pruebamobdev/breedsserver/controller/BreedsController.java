@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import pruebamobdev.breedsserver.exception.ErrorNoEncontrado;
 import pruebamobdev.breedsserver.model.Breed;
 import pruebamobdev.breedsserver.service.BreedsService;
 
@@ -33,9 +34,15 @@ public class BreedsController {
 
 			return new ResponseEntity<>(Breed, HttpStatus.OK);
 
+		} catch (ErrorNoEncontrado error) {
+
+			logger.error(error.getMessage(), error);
+
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
 		} catch (Exception error) {
 
-			logger.error("Error en el servicio al obtener información de una raza: " + error.getMessage(), error);
+			logger.error(error.getMessage(), error);
 
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 

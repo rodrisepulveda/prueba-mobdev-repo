@@ -1,13 +1,15 @@
 package pruebamobdev.breedsserver.service;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import pruebamobdev.breedsserver.controller.BreedsController;
+import pruebamobdev.breedsserver.exception.ErrorNoEncontrado;
 import pruebamobdev.breedsserver.exception.ErrorServicio;
 import pruebamobdev.breedsserver.model.Breed;
 import pruebamobdev.breedsserver.model.Entity;
@@ -17,21 +19,30 @@ public class BreedsService {
 
 	private Logger logger = LoggerFactory.getLogger(BreedsController.class);
 
-	public Breed obtenerBreed(String breedName) throws ErrorServicio {
+	@Value("${breds.api.server.url}")
+	private String bredsApiServerUrl;
+
+	@Value("${breds.api.all.endpoint}")
+	private String bredsApiAllEndpoint;
+
+	@Value("${breds.api.images.endpoint}")
+	private String bredsApiImagesEndpoint;
+
+	public Breed obtenerBreed(String breedName) throws ErrorServicio, ErrorNoEncontrado {
 
 		try {
 
-			RestTemplate plantilla = new RestTemplate();
-
-			Entity entity = plantilla.getForObject("https://dog.ceo/api/breeds/list/all", Entity.class);
-
 			Breed breed = new Breed();
 
-			this.agregarBreedYSubBreeds(breed, breedName, entity.getMessage().get(breedName));
-
-			logger.info(entity.toString());
+			this.agregarBreedYSubBreeds(breed, breedName);
 
 			return breed;
+
+		} catch (ErrorNoEncontrado error) {
+
+			logger.error(error.getMessage(), error);
+
+			throw error;
 
 		} catch (Exception error) {
 
@@ -43,11 +54,21 @@ public class BreedsService {
 
 	}
 
-	private void agregarBreedYSubBreeds(Breed breed, String breedName, List<String> listaSubBreeds) {
+	private void agregarBreedYSubBreeds(Breed breed, String breedName) throws ErrorServicio, ErrorNoEncontrado {
+
+		RestTemplate plantilla = new RestTemplate();
+
+		Entity entity = plantilla.getForObject(bredsApiServerUrl + bredsApiAllEndpoint, Entity.class);
+
+		if (!entity.getMessage().containsKey(breedName)) {
+
+			throw new ErrorNoEncontrado("La raza no está registrada.");
+
+		}
 
 		breed.setBreed(breedName);
 
-		breed.setSubBreeds(listaSubBreeds);
+		breed.setSubBreeds(entity.getMessage().get(breedName));
 
 	}
 
