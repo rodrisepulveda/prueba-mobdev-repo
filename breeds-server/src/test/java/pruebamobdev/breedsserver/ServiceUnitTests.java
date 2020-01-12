@@ -16,7 +16,7 @@ import pruebamobdev.breedsserver.service.IBreedsService;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class BreedsServerApplicationTests {
+public class ServiceUnitTests {
 
 	private static final String BREED = "bulldog";
 
