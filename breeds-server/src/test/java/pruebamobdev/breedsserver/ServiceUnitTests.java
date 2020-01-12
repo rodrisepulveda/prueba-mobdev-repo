@@ -29,6 +29,9 @@ public class ServiceUnitTests {
 	/**
 	 * Testea que el servicio devuelve el objeto correspondiente a la breed que se
 	 * busca.
+	 * 
+	 * Es necesario que el config server "spring-cloud-cofig-server" se esté
+	 * ejecutando para que este test funcione.
 	 */
 	@Test
 	public void testObtenerbreed() throws ErrorNoEncontrado, ErrorServicio {
@@ -42,6 +45,9 @@ public class ServiceUnitTests {
 	/**
 	 * Testea que al preguntar por un breed que no está en la API el servicio
 	 * devuelve un ErrorNoEncontrado.
+	 * 
+	 * Es necesario que el config server "spring-cloud-cofig-server" se esté
+	 * ejecutando para que este test funcione.
 	 */
 	@Test(expected = ErrorNoEncontrado.class)
 	public void testObtenerbreedNotFound() throws Exception {
