@@ -3,8 +3,6 @@ package pruebamobdev.breedsserver.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -59,6 +57,12 @@ public class BreedsService {
 		RestTemplate plantilla = new RestTemplate();
 
 		Entity entity = plantilla.getForObject(bredsApiServerUrl + bredsApiAllEndpoint, Entity.class);
+
+		if (entity == null || !entity.getStatus().equals("success")) {
+
+			throw new ErrorServicio("Error al obtener el listado de razas desde la api.");
+
+		}
 
 		if (!entity.getMessage().containsKey(breedName)) {
 
