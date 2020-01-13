@@ -28,13 +28,13 @@ public class BreedsController {
 
 	@RequestMapping(value = "/obtenerbreed/{breed}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Breed> obtenerBreed(@PathVariable String breed) {
+	public ResponseEntity<Breed> obtenerBreed(@PathVariable String breedName) {
 
 		try {
 
-			Breed Breed = breedsService.obtenerBreed(breed);
+			Breed breed = breedsService.obtenerBreed(breedName);
 
-			return new ResponseEntity<>(Breed, HttpStatus.OK);
+			return new ResponseEntity<>(breed, HttpStatus.OK);
 
 		} catch (ErrorNoEncontrado error) {
 

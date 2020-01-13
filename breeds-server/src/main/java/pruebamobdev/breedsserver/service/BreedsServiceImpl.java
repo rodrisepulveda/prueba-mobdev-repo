@@ -39,7 +39,7 @@ public class BreedsServiceImpl implements IBreedsService {
 
 			this.agregarBreedYSubBreeds(breed, breedName);
 
-			this.agregarImagenes(breed);
+			this.agregarImages(breed);
 
 			return breed;
 
@@ -59,7 +59,7 @@ public class BreedsServiceImpl implements IBreedsService {
 
 	}
 
-	private void agregarImagenes(Breed breed) {
+	private void agregarImages(Breed breed) {
 
 		RestTemplate plantilla = new RestTemplate();
 
