@@ -26,7 +26,7 @@ public class BreedsController {
 	@Qualifier("breedsServiceImpl")
 	private IBreedsService breedsService;
 
-	@RequestMapping(value = "/obtenerbreed/{breed}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/obtenerbreed/{breedName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Breed> obtenerBreed(@PathVariable String breedName) {
 
